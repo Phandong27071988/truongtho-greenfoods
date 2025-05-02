@@ -122,3 +122,47 @@ footer {
   padding: 15px;
   margin-top: 30px;
 }
+
+
+/* Responsive layout for mobile */
+@media (max-width: 768px) {
+  .banner {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .banner .left,
+  .banner .right {
+    flex: none;
+    width: 100%;
+    height: 280px;
+  }
+
+  .right-content {
+    gap: 20px;
+    padding: 20px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .products-grid {
+    flex-direction: column;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  .commitments {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .logo-block {
+    flex-direction: column;
+    text-align: center;
+  }
+}
