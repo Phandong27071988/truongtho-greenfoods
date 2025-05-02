@@ -1,2 +1,0 @@
-# truongtho-greenfoods
-truongthogreenfoods.com
