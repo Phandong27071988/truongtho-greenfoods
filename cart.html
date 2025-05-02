@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giỏ hàng - Trường Thọ Greenfoods</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    h2 {
+      color: #b71c1c;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background: #f5f5f5;
+    }
+    .total {
+      text-align: right;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #d84315;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background: #c30000;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+    .btn:hover {
+      background: #9f0000;
+    }
+    .empty-message {
+      text-align: center;
+      color: #777;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="cart-container">
+  <h2>Giỏ hàng của bạn</h2>
+  <table id="cartTable">
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Đơn giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+        <th>Xóa</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="empty-message" id="emptyMsg" style="display:none;">Giỏ hàng đang trống.</div>
+  <div class="total" id="totalDisplay">Tổng cộng: 0đ</div>
+  <a href="checkout.html" class="btn">Tiến hành đặt hàng</a>
+</div>
+
+<script>
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const tbody = document.querySelector("#cartTable tbody");
+    const totalEl = document.getElementById("totalDisplay");
+    const emptyMsg = document.getElementById("emptyMsg");
+    tbody.innerHTML = "";
+
+    if (cart.length === 0) {
+      emptyMsg.style.display = "block";
+      totalEl.style.display = "none";
+      return;
+    }
+
+    let total = 0;
+    cart.forEach((item, index) => {
+      const row = document.createElement("tr");
+      const subTotal = item.price * item.quantity;
+      total += subTotal;
+
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.price.toLocaleString()}đ</td>
+        <td>${item.quantity}</td>
+        <td>${subTotal.toLocaleString()}đ</td>
+        <td><button onclick="removeItem(${index})">Xóa</button></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    totalEl.innerText = "Tổng cộng: " + total.toLocaleString() + "đ";
+  }
+
+  function removeItem(index) {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+
+  document.addEventListener("DOMContentLoaded", loadCart);
+</script>
+
+</body>
+</html>
